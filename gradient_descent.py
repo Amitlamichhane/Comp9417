@@ -35,3 +35,5 @@ class GradientDescent():
 
 	def predict(self, x):
 		return np.dot(x, self._thetas)
+
+#load some example data

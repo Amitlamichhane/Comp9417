@@ -2,7 +2,7 @@ import arff, numpy as np
 import pandas as pd
 from scipy.io.arff import loadarff 
 import matplotlib.pyplot as plt 
-
+import gradient_descents
 
 
 def draw_scatter_matrix(df):
@@ -29,6 +29,10 @@ if __name__ == '__main__':
     data_frame = data_frame.dropna(how='any')
     ##for reporting use only 
     draw_scatter_matrix(data_frame)
+    #after seeing the scatter plot we can make linear regression architecture for multiple 
+    # attributes, let's start with simple attributes and plot the resulting data 
+    # gradient_descent with linear regression 
+    # multivariable linear regression is our data
     
-    ##now this steps help in reporting     
+  
 

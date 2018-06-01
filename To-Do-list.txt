@@ -1,8 +1,7 @@
 To-Do list:
 
 Part-1:
-•	Replace the missing values of horsepower column with the median value of the same column
-•	Convert the discontinuous/categorical values to their respective vectors (use the code sent on fb if required)
+
 •	Feature extraction- select the high-ranking features using recursive feature extraction (RFE) or grid search
 •	Cross validation to select weights
 Part-2:

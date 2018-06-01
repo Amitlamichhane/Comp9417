@@ -23,15 +23,18 @@ if __name__ == '__main__':
     data_frame= read_arf_data('autoMpg.arff')
     #dealing with null values in the data set     
     #since only few rows are associated with null values we are dropping that rows 
-    data_frame = data_frame.dropna(how='any')
-    aa = data_frame.as_matrix(columns= None) #storing number as a numpy matrix 
-    b =data_frame.columns.values #list of column names 
+
+    #•	Replace the missing values of horsepower column with the median value of the same column
     
-   
+    #horse power median values is 93.5
+    #since we know that the only nan values in the system is horsepower 
     
-    """
+    data_frame = data_frame.fillna(data_frame.median())
+
+    numpy_data = data_frame.as_matrix(columns= None) #storing number as a numpy matrix 
+    attributes =data_frame.columns.values #list of column names 
     draw_scatter_matrix(data_frame)
-    """
+
     
     #after seeing the scatter plot we can make linear regression architecture for multiple 
     # attributes, let's start with simple attributes and plot the resulting data 

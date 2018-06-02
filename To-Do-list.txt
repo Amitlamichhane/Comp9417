@@ -1,14 +1,11 @@
 To-Do list:
 
-Part-1:
+Sohil:
 
-•	Feature extraction- select the high-ranking features using recursive feature extraction (RFE) or grid search
-•	Cross validation to select weights
--   Check on gradient descent algorithm again 
--   Check linear regression algorithm 
--   Create Plots for each category against class {report}
--   Join features and create graph {report}
--   Output Statistical Data{report}
 
-Part-2:
-•	Apply perceptron learning algorithm with 8-input matrix
+
+Abhisekh:
+
+
+
+Amit:

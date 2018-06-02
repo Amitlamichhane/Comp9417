@@ -3,8 +3,12 @@ import pandas as pd
 from scipy.io.arff import loadarff 
 import matplotlib.pyplot as plt 
 import gradient_descent as gd
+ 
+import featureExtraction as fe
+
+
 import seaborn as sb
-import feature_extraction.py as fe
+
 
 #convert discontinuous variable to boolean table
 def convert_discontinuous_variable(df):

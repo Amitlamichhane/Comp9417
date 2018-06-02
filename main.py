@@ -29,8 +29,13 @@ def convert_discontinuous_variable(df):
     
 
 def draw_scatter_matrix(df):
-    df.plot(kind='line')
-    pass
+
+    attributes =df.columns.values
+    
+    g = sb.PairGrid(df, x_vars=attributes[0], y_vars='class')    
+    g = g.map(plt.scatter)
+    plt.show()
+    
 
 #read arf files and convert it into numpy 
 def read_arf_data (file_name):
@@ -50,19 +55,22 @@ if __name__ == '__main__':
     #since we know that the only nan values in the system is horsepower 
     
     data_frame = data_frame.fillna(data_frame.median())
-
+    #creating graph before boolean features     
+    draw_scatter_matrix(data_frame)
     new_data_frame = convert_discontinuous_variable(data_frame)
     #print(data_frame.head())
     #print(new_data_frame.head())
-    data_frame.corr()
-    sb.heatmap(data_frame.corr())
-    plt.show()
+    
+    #data_frame.corr()
+    #sb.heatmap(data_frame.corr())
+    #plt.show()
+    
     numpy_data = new_data_frame.as_matrix(columns= None) #storing number as a numpy matrix 
     #print(numpy_data)
     attributes =new_data_frame.columns.values #list of column names 
     #print(attributes)
 
-    #draw_scatter_matrix(data_frame)
+    
     #after seeing the scatter plot we can make linear regression architecture for multiple 
     # attributes, let's start with simple attributes and plot the resulting data 
     # gradient_descent with linear regression 

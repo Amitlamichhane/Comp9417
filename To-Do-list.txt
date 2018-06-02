@@ -9,3 +9,8 @@ Abhisekh:
 
 
 Amit:
+- Plot map 
+- Features extraction (AL;G)
+- [error, loss]= Linear regression check + gradient descent 
+- seaborn animation for gradient descent
+- KFold Validation (70 - 30 )% {checking for validation}

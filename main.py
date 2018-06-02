@@ -3,7 +3,7 @@ import pandas as pd
 from scipy.io.arff import loadarff 
 import matplotlib.pyplot as plt 
 import gradient_descent
-
+import seaborn as sb
 
 #convert discontinuous variable to boolean table
 def convert_discontinuous_variable(df):
@@ -54,11 +54,14 @@ if __name__ == '__main__':
     new_data_frame = convert_discontinuous_variable(data_frame)
     #print(data_frame.head())
     #print(new_data_frame.head())
+    data_frame.corr()
+    sb.heatmap(data_frame.corr())
+    plt.show()
     numpy_data = new_data_frame.as_matrix(columns= None) #storing number as a numpy matrix 
-    print(numpy_data)
+    #print(numpy_data)
     attributes =new_data_frame.columns.values #list of column names 
-    print(attributes)
-    
+    #print(attributes)
+
     #draw_scatter_matrix(data_frame)
     #after seeing the scatter plot we can make linear regression architecture for multiple 
     # attributes, let's start with simple attributes and plot the resulting data 

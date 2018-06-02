@@ -1,6 +1,5 @@
 import numpy as np 
 import matplotlib.pyplot as plt
-
 class GradientDescent():
 	def __init__(self, alpha=0.1, tolerance=0.02, max_iterations=500):
 		#alpha is the learning rate or size of step to take in 
@@ -36,4 +35,4 @@ class GradientDescent():
 	def predict(self, x):
 		return np.dot(x, self._thetas)
 
-#load some example data
+

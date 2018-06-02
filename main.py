@@ -14,7 +14,7 @@ def convert_discontinuous_variable(df):
     for k in model_var:
         df1['model'+'_'+str(k)]= df1['model'].str.decode("utf-8")
         df1['model'+'_'+str(k)]= np.where(df1['model'+'_'+str(k)]== str(k),1,0)
-    #remoove model 
+
 
     for k in origin_var:
         df1['origin'+'_'+str(k)]= df1['origin'].str.decode("utf-8")
@@ -29,9 +29,8 @@ def convert_discontinuous_variable(df):
     
 
 def draw_scatter_matrix(df):
-    axes = pd.tools.plotting.scatter_matrix(df, alpha=0.2)
-    plt.tight_layout()
-    plt.savefig('realationGraph.png')
+    df.plot(kind='line')
+    pass
 
 #read arf files and convert it into numpy 
 def read_arf_data (file_name):
@@ -43,7 +42,7 @@ def read_arf_data (file_name):
 
 
 if __name__ == '__main__':
-    random , data_frame= read_arf_data('autoMpg.arff')
+    data_frame= read_arf_data('autoMpg.arff')
     #dealing with null values in the data set     
     #since only few rows are associated with null values we are dropping that rows 
     #•	Replace the missing values of horsepower column with the median value of the same column
@@ -51,19 +50,17 @@ if __name__ == '__main__':
     #since we know that the only nan values in the system is horsepower 
     
     data_frame = data_frame.fillna(data_frame.median())
-    
+
     new_data_frame = convert_discontinuous_variable(data_frame)
-    print(data_frame.head())
-    print(new_data_frame.head())
+    #print(data_frame.head())
+    #print(new_data_frame.head())
     numpy_data = new_data_frame.as_matrix(columns= None) #storing number as a numpy matrix 
     print(numpy_data)
     attributes =new_data_frame.columns.values #list of column names 
     print(attributes)
-    #draw_scatter_matrix(data_frame)
-
     
+    #draw_scatter_matrix(data_frame)
     #after seeing the scatter plot we can make linear regression architecture for multiple 
     # attributes, let's start with simple attributes and plot the resulting data 
     # gradient_descent with linear regression 
     # multivariable linear regression is our data
-   

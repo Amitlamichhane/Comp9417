@@ -1,82 +1,48 @@
-import arff, numpy as np
-import pandas as pd
-from scipy.io.arff import loadarff 
-import matplotlib.pyplot as plt 
 import gradient_descent as gd
- 
 import featureExtraction as fe
+import clean_data as cd
+#import matplotlib.pyplot as plt 
+#import seaborn as sb
+import numpy as np
 
 
-import seaborn as sb
 
-
-#convert discontinuous variable to boolean table
-def convert_discontinuous_variable(df):
-    cylinder_var=[3,4,5,6,8]
-    model_var=[70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82]
-    origin_var=[1, 3, 2]
-    df1= df
-    for k in model_var:
-        df1['model'+'_'+str(k)]= df1['model'].str.decode("utf-8")
-        df1['model'+'_'+str(k)]= np.where(df1['model'+'_'+str(k)]== str(k),1,0)
-
-
-    for k in origin_var:
-        df1['origin'+'_'+str(k)]= df1['origin'].str.decode("utf-8")
-        df1['origin'+'_'+str(k)]= np.where(df1['origin'+'_'+str(k)]==str(k) ,1,0)
-    for k in cylinder_var:
-        df1['cylinders'+'_'+str(k)]= df1['cylinders'].str.decode("utf-8")        
-        df1['cylinders'+'_'+str(k)]= np.where(df1['cylinders'+'_'+str(k)]==str(k) ,1,0)
-
-    df1.drop(['horsepower','model','cylinders'],axis=1,inplace=True)    
+   
     
-    return df1
-    
-
-def draw_scatter_matrix(df):
-
-    attributes =df.columns.values
-    
-    g = sb.PairGrid(df, x_vars=attributes[0], y_vars='class')    
-    g = g.map(plt.scatter)
-    plt.show()
-    
-
-#read arf files and convert it into numpy 
-def read_arf_data (file_name):
-    raw_data = loadarff(file_name) 
-    df_data = pd.DataFrame(raw_data[0]) #create a data_frame with attributes 
-
-    return  df_data
-    
-
-
 if __name__ == '__main__':
-    data_frame= read_arf_data('autoMpg.arff')
-    #dealing with null values in the data set     
-    #since only few rows are associated with null values we are dropping that rows 
-    #•	Replace the missing values of horsepower column with the median value of the same column
+    #read data from 
+    data_frame= cd.read_arf_data('autoMpg.arff')
     #horse power median values is 93.5
-    #since we know that the only nan values in the system is horsepower 
-    
-    data_frame = data_frame.fillna(data_frame.median())
-    #creating graph before boolean features     
-    draw_scatter_matrix(data_frame)
-    new_data_frame = convert_discontinuous_variable(data_frame)
-    #print(data_frame.head())
-    #print(new_data_frame.head())
-    
-    #data_frame.corr()
-    #sb.heatmap(data_frame.corr())
-    #plt.show()
-    
-    numpy_data = new_data_frame.as_matrix(columns= None) #storing number as a numpy matrix 
-    #print(numpy_data)
-    attributes =new_data_frame.columns.values #list of column names 
-    #print(attributes)
+    #since we know that the only nan values in the system is horsepower  
+    cd.add_median_values(data_frame)
+    cd.convert_discontinuous_variable(data_frame)
+    data_frame = (data_frame - data_frame.mean())/data_frame.std()
+    data_frame.rename(columns={"class": "MPG"},inplace = True)
 
+    data_frame = data_frame.drop(["weight"],axis=1)
+    #extract dependent variable from the data 
+    y = (data_frame["MPG"].values)
+    y= y.reshape(398,1)
+
+    y_column = "MPG"
     
-    #after seeing the scatter plot we can make linear regression architecture for multiple 
-    # attributes, let's start with simple attributes and plot the resulting data 
-    # gradient_descent with linear regression 
-    # multivariable linear regression is our data
+    X = (data_frame.loc[:, data_frame.columns != "MPG"])
+    X = (X.iloc[:,0:2]).values
+    X_column = (data_frame.loc[:, data_frame.columns != "MPG"])
+    x_column = X_column.columns.values
+    #add y columns 
+    X = gd.add_y_intercept(X)
+    theta = np.matrix(np.zeros([X.shape[1],1]))
+    
+    print(theta.shape)
+    print(X.shape)
+    print(y.shape)
+    a_shape_before = X.shape
+    a_shape_after = X[np.logical_not(np.is_nan(X))].shape
+    assert a_shape_before == a_shape_after
+    #set hyper parameters
+    alpha = 0.01
+    iters = 100
+
+    g, cost = gd.gradient_descent(X,y,theta,alpha,iters)
+   

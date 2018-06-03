@@ -1,38 +1,31 @@
 import numpy as np 
-import matplotlib.pyplot as plt
-class GradientDescent():
-	def __init__(self, alpha=0.1, tolerance=0.02, max_iterations=500):
-		#alpha is the learning rate or size of step to take in 
-		#the gradient decent
-		self._alpha = alpha
-		self._tolerance = tolerance
-		self._max_iterations = max_iterations
-		#thetas is the array coeffcients for each term
-		#the y-intercept is the last element
-		self._thetas = None
+import time 
 
-	def fit(self, xs, ys):
-		num_examples, num_features = np.shape(xs)
-		self._thetas = np.ones(num_features)
-        
-		xs_transposed = xs.transpose()
-		for i in range(self._max_iterations):
-			#difference between our hypothesis and actual values
-			diffs = np.dot(xs,self._thetas) - ys
-			#sum of the squares
-			cost = np.sum(diffs**2) / (2*num_examples)
-			#calculate averge gradient for every example
-			gradient = np.dot(xs_transposed, diffs) / num_examples
-			#update the coeffcients
-			self._thetas = self._thetas-self._alpha*gradient
-			
-			#check if fit is "good enough"
-			if cost < self._tolerance:
-				return self._thetas
+def add_y_intercept(X):
+	m = X.shape[0]
+	return np.column_stack([np.ones([m,1]), X])
 
-		return self._thetas
+def normalise(X):
+	mu = np.mean(X, 0)
+	Xnorm = X - mu
+	sigma = Xnorm.std(0, ddof = 1)
+	return np.divide(Xnorm, sigma)
 
-	def predict(self, x):
-		return np.dot(x, self._thetas)
+def cost(X, y, theta):
+	
+	
+	tobesummed = np.power(((X @ theta.T)-y),2)
+	return np.sum(tobesummed)/(2 * len(X))
 
+def gradient_descent(X, y, theta, alpha,  iters):
+	cs = np.zeros(iters)
+	m = float(y.shape[0])
+	for i in range(iters):
+		gradient = (1. / m) * (((X * theta) - y) * X.T)
+		print(gradient)
+		#theta = theta - (gradient.T * alpha)
+		#print(theta)
+		#print(np.sum(X * (X @ theta.T - y)))
+		#cs[i] = cost(X,y,theta)
+	return theta,cs
 

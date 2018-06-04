@@ -1,19 +1,14 @@
 import gradient_descent as gd
-
 import clean_data as cd
 import matplotlib.pyplot as plt 
 #import seaborn as sb
 import numpy as np
 import split_data as sp 
+import pandas as pd
 from sklearn import model_selection 
 from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import LinearRegression
 
-
-
-
-   
-    
 if __name__ == '__main__':
     #read data from 
     data_frame= cd.read_arf_data('autoMpg.arff')
@@ -51,6 +46,9 @@ if __name__ == '__main__':
     
     
     g, cost = gd.gradient_descent(train_x,train_y,theta,alpha,iters)
+
+    x_column = x_column.reshape(24,1)
+    
     
     y_predict = np.dot(test_x,g)
     #print(y_predict)
@@ -73,8 +71,6 @@ if __name__ == '__main__':
     print("MSE using sklearn: ", mse_sklearn)
     print("RMSE using sklearn: ", rmse_sklearn)
     
-    ##accuracy test 
-
     finalCost = gd.cost(train_x,train_y,g)
     print("Accuracy of the linear regression with gradient descent:",(100.0-(finalCost*100)))
     

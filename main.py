@@ -73,7 +73,7 @@ if __name__ == '__main__':
     print("RMSE using sklearn: ", rmse_sklearn)
     
  
-    """finalCost = gd.cost(train_x,train_y,g)
+    finalCost = gd.cost(train_x,train_y,g)
     print(finalCost)
 
     fig, ax = plt.subplots()  
@@ -81,4 +81,4 @@ if __name__ == '__main__':
     ax.set_xlabel('Iterations')  
     ax.set_ylabel('Cost')  
     ax.set_title('Error vs. Training Epoch')  
-    plt.show()"""
+    plt.show()

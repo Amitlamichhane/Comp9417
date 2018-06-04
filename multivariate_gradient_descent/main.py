@@ -1,5 +1,5 @@
 import gradient_descent as gd
-import featureExtraction as fe
+
 import clean_data as cd
 import matplotlib.pyplot as plt 
 #import seaborn as sb
@@ -20,9 +20,9 @@ if __name__ == '__main__':
     #horse power median values is 93.5
     #since we know that the only nan values in the system is horsepower  
     data_frame = cd.add_median_values(data_frame)
-    print((data_frame.iloc[:,0:-7].head()))
+    #print((data_frame.iloc[:,0:-7].head()))
     cd.convert_discontinuous_variable(data_frame)
-    print((data_frame.iloc[:,21:]).head())
+    #print((data_frame.iloc[:,21:]).head())
     #normalize otherwise it will overflow 
     data_frame = (data_frame - data_frame.mean())/data_frame.std()
     data_frame.rename(columns={"class": "MPG"},inplace = True)

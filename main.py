@@ -58,6 +58,7 @@ if __name__ == '__main__':
     rmse = np.sqrt(mse)
     print("MSE using gradient descent: ", mse)
     print("RMSE using gradient descent: ", rmse)
+    
 
     from sklearn.model_selection import train_test_split
 
@@ -72,13 +73,11 @@ if __name__ == '__main__':
     print("MSE using sklearn: ", mse_sklearn)
     print("RMSE using sklearn: ", rmse_sklearn)
     
- 
-    finalCost = gd.cost(train_x,train_y,g)
-    print(finalCost)
+    ##accuracy test 
 
-    fig, ax = plt.subplots()  
-    ax.plot(np.arange(iters), cost, 'r')  
-    ax.set_xlabel('Iterations')  
-    ax.set_ylabel('Cost')  
-    ax.set_title('Error vs. Training Epoch')  
-    plt.show()
+    finalCost = gd.cost(train_x,train_y,g)
+    print("Accuracy of the linear regression with gradient descent:",(100.0-(finalCost*100)))
+    
+    
+ 
+    

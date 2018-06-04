@@ -35,6 +35,7 @@ def draw_scatter_matrix(df):
     
     g = sb.PairGrid(df, x_vars=attributes[0], y_vars='class')    
     g = g.map(plt.scatter)
+    
     plt.show()
     
 

@@ -3,31 +3,39 @@ from random import seed
 from random import random
 import itertools
 
-# Transfer neuron activation
-def transfer(activation):
+# sigmoid neuron activation
+def sigmoid(activation):
     return 1.0 / (1.0 + np.exp(-activation))
 
-def transfer_derivative(output):
+def sigmoid_derivative(output):
     return output * (1.0 - output)
 
 
 
 # Initialize a network
 def initialize_network(n_inputs, n_hidden, n_outputs):
+    '''n_inputs = number of inputs
+       n_hidden = number of hidden layers
+       n_outputs = number of outputs
+    '''
     network = list()
-    hidden_layer = [{'weights':[random() for i in range(n_inputs + 1)]} for i in range(n_hidden)]
+    hidden_layer = [{'weights':[random() for i in range(n_inputs + 1)]}
+                     for i in range(n_hidden)]
+    
     network.append(hidden_layer)
-    output_layer = [{'weights':[random() for i in range(n_hidden + 1)]} for i in range(n_outputs)]
+    output_layer = [{'weights':[random() for i in range(n_hidden + 1)]} 
+                    for i in range(n_outputs)]
     network.append(output_layer)
     return network
 
-# Calculate neuron activation for an input
-def activate(weights, inputs):
+def neuron_output(weights, inputs):
+    # Calculate output of the linear model
+    # sum(Weights*input) + bias i.e Y = w.T*X + bias
     activation = weights[-1]
     for i in range(len(weights)-1):
         activation += weights[i] * inputs[i]
     return activation
-    
+
 
 # Forward propagate input to a network output
 def forward_propagate(network, row):
@@ -35,8 +43,8 @@ def forward_propagate(network, row):
     for layer in network:
         new_inputs = []
         for neuron in layer:
-            activation = activate(neuron['weights'], inputs)
-            neuron['output'] = transfer(activation)
+            activation = neuron_output(neuron['weights'], inputs)
+            neuron['output'] = sigmoid(activation)
             new_inputs.append(neuron['output'])
         inputs = new_inputs
     return inputs
@@ -58,36 +66,35 @@ def backward_propagate_error(network, expected):
                 errors.append(expected[j] - neuron['output'])
         for j in range(len(layer)):
             neuron = layer[j]
-            neuron['delta'] = errors[j] * transfer_derivative(neuron['output'])
-
-# Update network weights with error
-def update_weights(network, row, l_rate):
-    for i in range(len(network)):
-        inputs = row[:-1]
-        if i != 0:
-            inputs = [neuron['output'] for neuron in network[i - 1]]
-        for neuron in network[i]:
-            for j in range(len(inputs)):
-                neuron['weights'][j] += l_rate * neuron['delta'] * inputs[j]
-            neuron['weights'][-1] += l_rate * neuron['delta']
-
+            neuron['delta'] = errors[j] * sigmoid_derivative(neuron['output'])
 
 # Train a network for a fixed number of epochs
-def train_network(network, train, l_rate, n_epoch, n_outputs):
+def train(network, train, l_rate, n_epoch, n_outputs):
     for epoch in range(n_epoch):
         sum_error = 0
         for row in train:
             outputs = forward_propagate(network, row)
+
             expected = [0 for i in range(n_outputs)]
             expected[row[-1]] = 1
+
             sum_error += sum([(expected[i]-outputs[i])**2 for i in range(len(expected))])
             backward_propagate_error(network, expected)
-            update_weights(network, row, l_rate)
-        print('>epoch=%d, lrate=%.3f, error=%.3f' % (epoch, l_rate, sum_error))
+            ##update weights
+            for i in range(len(network)):
+                inputs = row[:-1]
+                if i != 0:
+                    inputs = [neuron['output'] for neuron in network[i - 1]]
+                for neuron in network[i]:
+                    for j in range(len(inputs)):
+                        neuron['weights'][j] += l_rate * neuron['delta'] * inputs[j]
+                    neuron['weights'][-1] += l_rate * neuron['delta']
+                         
 
-
-def neuron_output(weights, inputs):
-
-    bias = weights[-1]
-    
-    return sum(weights[i] * inputs[i] for i in range(len(inputs)-1)) + bias
+        #writing data into files                    
+        #with open("example.txt","a") as myFile:
+        #   myFile.write("%.2f,%.2f \n"%(epoch,sum_error))
+       
+#prediction formula 
+def predict(network, input):
+    return(forward_propagate(network, input))

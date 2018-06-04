@@ -27,3 +27,7 @@ Multilayered Percepton Algorithm
 - neurons.py 
     Trains neuron 
         
+
+Training with pocked Algorithm is only done on single layer perceptron 
+-- And can be run by running 
+    python3 percepton.py       

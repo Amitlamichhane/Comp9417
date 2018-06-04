@@ -13,19 +13,20 @@ def normalise(X):
 
 def cost(X, y, theta):
 	
-	
-	tobesummed = np.power(((X @ theta.T)-y),2)
-	return np.sum(tobesummed)/(2 * len(X))
+	m = y.shape[0]
+	h = X * theta
+	error = h - y
+	cst = (1./(2.*m)) * np.sum(np.square(error))
+	return cst
 
 def gradient_descent(X, y, theta, alpha,  iters):
 	cs = np.zeros(iters)
 	m = float(y.shape[0])
 	for i in range(iters):
-		gradient = (1. / m) * (((X * theta) - y) * X.T)
-		print(gradient)
-		#theta = theta - (gradient.T * alpha)
-		#print(theta)
-		#print(np.sum(X * (X @ theta.T - y)))
-		#cs[i] = cost(X,y,theta)
+		gradient= (1. / m) * (((X * theta) - y).T * X)
+		theta= theta - (gradient.T * alpha)
+		cs[i] = cost(X, y, theta)
+	
 	return theta,cs
+	
 

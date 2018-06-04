@@ -1,6 +1,8 @@
 import random
+import numpy as np
 #split data into training and test sets
 def split_data(x,y, split = 70): #split defined as training split i.e split = 70 => 70 train / 30 test
+    random.seed(0)
     train_x = []
     train_y = []
     test_x = []
@@ -21,4 +23,4 @@ def split_data(x,y, split = 70): #split defined as training split i.e split = 70
                 train_x.append(x[i])
                 train_y.append(y[i])
                 
-    return train_x, train_y, test_x, test_y
+    return np.array(train_x), np.array(train_y), np.array(test_x), np.array(test_y)

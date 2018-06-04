@@ -48,6 +48,9 @@ def read_arf_data (file_name):
 
 #Add median values for missing data 
 def add_median_values(df):
+    print(df.isnull().sum(axis = 0))
     df = df.fillna(df.median())
+    return df 
+
     
 

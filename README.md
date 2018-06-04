@@ -25,9 +25,14 @@ Multilayered Percepton Algorithm
     
     default is non linear function generator 
 - neurons.py 
-    Trains neuron 
-        
+    Trains neuron   
+    predict.py = checks probablity 
+    prints true or false numpy, that checks input with the original output        
+
+
 
 Training with pocked Algorithm is only done on single layer perceptron 
 -- And can be run by running 
-    python3 percepton.py       
+
+
+python3 percepton.py       

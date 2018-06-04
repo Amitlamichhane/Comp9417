@@ -13,3 +13,17 @@ To run linear regression:
 
 image file includes all data created from autoMPG.arff
     
+
+Multilayered Percepton Algorithm 
+
+
+- RUN using python3 mpl.py 
+- mpl: includes main and call function generator as well neruons training
+
+- on LinearfunctionGenerator:
+    def function_generator(input , Linear_function= False):
+    
+    default is non linear function generator 
+- neurons.py 
+    Trains neuron 
+        

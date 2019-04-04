@@ -1,4 +1,4 @@
-# Comp9417
+
 
 Multivariate Linear Regression with gradient descent 
 --All required file to run Linear regression is inside
